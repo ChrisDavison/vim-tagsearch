@@ -1,0 +1,31 @@
+*vim-tagsearch.txt*  Search for tags across files. 
+
+Author:  chris cavison <https://chrisdavison.github.io>
+License: Same terms as Vim itself (see |license|)
+
+INTRODUCTION                                    *vim-tagsearch*
+
+
+
+MAPS                                            *vim-tagsearch-maps*
+
+                                                *vim-tagsearch-SOME_MAPPING*
+{visual}<leader>ml                   
+    Mapping description
+
+
+COMMANDS                                          *vim-tagsearch-commands*
+                                                    *:TagsearchUntagged*
+:TagsearchUntagged        Open files without tags in quickfix list
+
+                                                    *:TagsearchUntaggedFZF*
+:TagsearchUntaggedFZF     Open files without tags in a FZF dialog
+
+                                                    *:TagsearchList*
+:TagsearchList {tags}      Open files matching {tags} in quickfix list
+
+                                                    *:TagsearchListFZF*
+:TagsearchListFZF {tags}   Open files matching {tags} in FZF dialog
+
+
+ vim:tw=80:et:ft=help:norl
