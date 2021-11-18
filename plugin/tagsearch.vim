@@ -7,13 +7,15 @@ if exists("g:loaded_vim_tagsearch") || &cp || v:version < 700
 endif
 let g:loaded_vim_tagsearch = 1
 
-command! TagsearchUntagged call tagsearch#untagged()|lopen
+command! TagsearchUntagged call tagsearch#untagged()
 command! TagsearchUntaggedFZF call tagsearch#untagged_fzf()
 cnoreabbrev TSU TagsearchUntagged
 cnoreabbrev TSUF TagsearchUntaggedF
 
-command! -nargs=+ TagsearchList call tagsearch#list(<q-args>)|lopen
-command! -nargs=+ TagsearchListFZF call tagsearch#list_fzf(<q-args>)
+command! -nargs=+ TagsearchList call tagsearch#list(<q-args>, 0)
+command! -nargs=+ TagsearchListFZF call tagsearch#list_fzf(<q-args>, 0)
 cnoreabbrev TSL TagsearchList
 cnoreabbrev TSLF TagsearchListFZF
 
+command! TagsearchLong call tagsearch#long()
+cnoreabbrev TSLO TagsearchLong
