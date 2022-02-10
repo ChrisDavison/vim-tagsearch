@@ -91,5 +91,5 @@ function! tagsearch#knowledge_projects_fzf() abort
                 \ 'source': 'tagsearch project --not archive',
                 \ 'sink': 'edit',
                 \ }))
-    exec "cd " . l:curdir
+    return systemlist('tagsearch project --not archive')
 endfunction
