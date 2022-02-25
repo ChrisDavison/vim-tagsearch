@@ -49,6 +49,14 @@ function! tagsearch#list_or(tags) abort
     call tagsearch#list(a:tags, 1)
 endfunction
 
+function! s:make_list_2(ts_vim_line) abort
+    let parts=split(a:ts_vim_line, ":")
+    echom l:parts
+    return { 'filename': fnamemodify(parts[0], ':p'), 'text': parts[2],
+           \ 'lnum': parts[1], 'col': 0,
+           \ }
+endfunction
+
 function! tagsearch#list(tags, or) abort
     let or=''
     if a:or == 1
@@ -58,8 +66,8 @@ function! tagsearch#list(tags, or) abort
     if type(a:tags) == 3
         let tags = join(l:tags, ' ')
     endif
-    let files=systemlist('tagsearch ' . l:or . l:tags)
-    let filedict=map(l:files, {_, val -> <sid>make_list(val, l:tags)})
+    let files=systemlist('tagsearch --vim ' . l:or . l:tags)
+    let filedict=map(l:files, {_, val -> <sid>make_list_2(val)})
     call setqflist(l:filedict)
     if len(l:filedict)
         copen
