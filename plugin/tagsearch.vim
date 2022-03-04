@@ -12,6 +12,8 @@ command! TagsearchUntaggedFZF call tagsearch#untagged_fzf()
 cnoreabbrev TSU TagsearchUntagged
 cnoreabbrev TSUF TagsearchUntaggedF
 
+command! InsertTags call tagsearch#insert_tags()
+
 command! -nargs=+ TagsearchList call tagsearch#list(<q-args>, 0)
 command! -nargs=+ TagsearchListFZF call tagsearch#list_fzf(<q-args>, 0)
 cnoreabbrev TSL TagsearchList
@@ -19,3 +21,6 @@ cnoreabbrev TSLF TagsearchListFZF
 
 command! TagsearchLong call tagsearch#long()
 cnoreabbrev TSLO TagsearchLong
+
+" inoremap <expr> <c-x><c-l> fzf#vim#complete(fzf#wrap({
+
