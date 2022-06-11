@@ -27,7 +27,7 @@ endfunction "}}}
 
 function! tagsearch#long() abort "{{{
     call fzf#run(fzf#wrap({
-                \ 'source': 'tagsearch tags --long', 
+                \ 'source': 'tagsearch tags --long --no-tree', 
                 \ 'sink*': function('tagsearch#list_or'), 
                 \ 'options': '-m'}))
 endfunction "}}}
@@ -39,7 +39,7 @@ endfunction "}}}
 
 function! tagsearch#insert_tags() abort "{{{
     call fzf#run(fzf#wrap({
-                \ 'source': 'tagsearch tags --long', 
+                \ 'source': 'tagsearch tags --long --no-tree', 
                 \ 'sink*': function('tagsearch#insert_tags_at_point'), 
                 \ 'options': '-m'}))
 endfunction "}}}
