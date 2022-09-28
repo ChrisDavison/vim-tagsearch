@@ -45,7 +45,7 @@ function! tagsearch#append_tags_to_first_tagline(tags) abort "{{{
     let curpos=getpos('.')
     call cursor(1, 1)
     let first_tagline=search('^@', 'nc')
-    # use dict to avoid duplicating tags
+    " use dict to avoid duplicating tags
     let tag_dict = {}
     for new_tag in a:tags
         let tag_dict[substitute(new_tag, '@', '', '')] = 1
@@ -53,19 +53,20 @@ function! tagsearch#append_tags_to_first_tagline(tags) abort "{{{
 
     if l:first_tagline[0] > 0
         let dict_tags = {}
-        # replace (first) tagline with updated tagline
+        " replace (first) tagline with updated tagline
         let tags_in_line = split(getline(l:first_tagline[0]), ' ')
         for single_tag in tags_in_line
             let tag_dict[substitute(single_tag, '@', '', '')] = 1
         endfor
         call setline(l:first_tagline[0], s:wordlist_to_tagstr(keys(tag_dict)))
     else
-        let first_h1=search('^@', 'nc')
+        call cursor(1,1)
+        let first_h1=search('^#', 'nc')
         if l:first_h1 > 0
-            # append after the first H1
+            " append after the first H1
             call append(l:first_h1[0], ["", s:wordlist_to_tagstr(keys(tag_dict)), ""])
         else
-            # or just put it right at the top of the file
+            " or just put it right at the top of the file
             call append(0, [s:wordlist_to_tagstr(keys(tag_dict))])
         endif
     endif
