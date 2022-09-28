@@ -4,8 +4,8 @@
 
 function! s:fzf(source, sink) abort "{{{
     call fzf#run(fzf#wrap({
-                \ 'source': a:source, 
-                \ 'sink': a:sink, 
+                \ 'source': a:source,
+                \ 'sink': a:sink,
                 \ 'window': {'width': 1.0, 'height': 0.3, 'relative': v:false, 'yoffset': 0.0},
                 \ 'preview': ['right:50%:hidden', 'ctrl-/'],
                 \ }))
@@ -27,8 +27,8 @@ endfunction "}}}
 
 function! tagsearch#long() abort "{{{
     call fzf#run(fzf#wrap({
-                \ 'source': 'tagsearch tags --long --no-tree', 
-                \ 'sink*': function('tagsearch#list_or'), 
+                \ 'source': 'tagsearch tags --long --no-tree',
+                \ 'sink*': function('tagsearch#list_or'),
                 \ 'options': '-m'}))
 endfunction "}}}
 
@@ -37,11 +37,53 @@ function! tagsearch#insert_tags_at_point(tags) "{{{
     call setline('.', l:tagstr)
 endfunction "}}}
 
+function! s:wordlist_to_tagstr(words) abort "{{{
+    return join(map(a:words, { k, v -> '@' . v }), ' ')
+endfunction "}}}
+
+function! tagsearch#append_tags_to_first_tagline(tags) abort "{{{
+    let curpos=getpos('.')
+    call cursor(1, 1)
+    let first_tagline=search('^@', 'nc')
+    # use dict to avoid duplicating tags
+    let tag_dict = {}
+    for new_tag in a:tags
+        let tag_dict[substitute(new_tag, '@', '', '')] = 1
+    endfor
+
+    if l:first_tagline[0] > 0
+        let dict_tags = {}
+        # replace (first) tagline with updated tagline
+        let tags_in_line = split(getline(l:first_tagline[0]), ' ')
+        for single_tag in tags_in_line
+            let tag_dict[substitute(single_tag, '@', '', '')] = 1
+        endfor
+        call setline(l:first_tagline[0], s:wordlist_to_tagstr(keys(tag_dict)))
+    else
+        let first_h1=search('^@', 'nc')
+        if l:first_h1 > 0
+            # append after the first H1
+            call append(l:first_h1[0], ["", s:wordlist_to_tagstr(keys(tag_dict)), ""])
+        else
+            # or just put it right at the top of the file
+            call append(0, [s:wordlist_to_tagstr(keys(tag_dict))])
+        endif
+    endif
+    call cursor(l:curpos)
+endfunction "}}}
+
 function! tagsearch#insert_tags() abort "{{{
     call fzf#run(fzf#wrap({
-                \ 'source': 'tagsearch tags --long --no-tree', 
-                \ 'sink*': function('tagsearch#insert_tags_at_point'), 
+                \ 'source': 'tagsearch tags --long --no-tree',
+                \ 'sink*': function('tagsearch#insert_tags_at_point'),
                 \ 'options': '-m'}))
+endfunction "}}}
+
+function! tagsearch#append_tags() abort "{{{
+    call fzf#run(fzf#wrap({
+            \ 'source': 'tagsearch tags --long --no-tree',
+            \ 'sink*': function('tagsearch#append_tags_to_first_tagline'),
+            \ 'options': '-m'}))
 endfunction "}}}
 
 function! tagsearch#untagged_fzf() abort "{{{
@@ -63,7 +105,7 @@ function! tagsearch#list(tags, or) abort "{{{
     endif
 
     let grepprg_old=&g:grepprg
-    let &g:grepprg='tagsearch files --vim ' . l:or . l:tags    
+    let &g:grepprg='tagsearch files --vim ' . l:or . l:tags
     silent grep
     let &g:grepprg=l:grepprg_old
 endfunction "}}}
