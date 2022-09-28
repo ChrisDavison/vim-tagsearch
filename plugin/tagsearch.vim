@@ -14,7 +14,7 @@ cnoreabbrev TSUF TagsearchUntaggedF
 
 command! InsertTags call tagsearch#insert_tags()
 command! AppendTags call tagsearch#append_tags()
-command! -nargs=+ AddTags call tagsearch#append_tags_to_first_tagline(<q-args>)
+command! -nargs=+ AddTags call tagsearch#append_tags_to_first_tagline(split(<q-args>, ' '))
 
 command! -nargs=+ TagsearchList call tagsearch#list(<q-args>, 0)
 command! -nargs=+ TagsearchListFZF call tagsearch#list_fzf(<q-args>, 0)
