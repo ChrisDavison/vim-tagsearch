@@ -15,14 +15,15 @@ cnoreabbrev TSUF TagsearchUntaggedF
 command! InsertTags call tagsearch#insert_tags()
 command! AppendTags call tagsearch#append_tags()
 command! -nargs=+ AddTags call tagsearch#append_tags_to_first_tagline(split(<q-args>, ' '))
+command! RemoveTags call tagsearch#remove_tags()
 
 command! -nargs=+ TagsearchList call tagsearch#list(<q-args>, 0)
 command! -nargs=+ TagsearchListFZF call tagsearch#list_fzf(<q-args>, 0)
+command! -nargs=? TagsearchAppendTags call tagsearch#append_tags(<q-args>)
 cnoreabbrev TSL TagsearchList
 cnoreabbrev TSLF TagsearchListFZF
+cnoreabbrev TSA TagsearchAppendTags
 
 command! TagsearchLong call tagsearch#long()
 cnoreabbrev TSLO TagsearchLong
-
-" inoremap <expr> <c-x><c-l> fzf#vim#complete(fzf#wrap({
 

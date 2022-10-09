@@ -80,11 +80,15 @@ function! tagsearch#insert_tags() abort "{{{
                 \ 'options': '-m'}))
 endfunction "}}}
 
-function! tagsearch#append_tags() abort "{{{
-    call fzf#run(fzf#wrap({
-            \ 'source': 'tagsearch tags --long --no-tree',
-            \ 'sink*': function('tagsearch#append_tags_to_first_tagline'),
-            \ 'options': '-m'}))
+function! tagsearch#append_tags(tags) abort "{{{
+    if a:tags != ""
+        call tagsearch#append_to_existing_tags_or_create_new(a:tags)
+    else
+        call fzf#run(fzf#wrap({
+                    \ 'source': 'tagsearch tags --long --no-tree',
+                    \ 'sink*': function('tagsearch#append_to_existing_tags_or_create_new'),
+                    \ 'options': '-m'}))
+    endif
 endfunction "}}}
 
 function! tagsearch#untagged_fzf() abort "{{{
@@ -138,4 +142,16 @@ function! tagsearch#knowledge_projects_fzf() abort "{{{
                 \ }))
     let g:rooter_manual_only=0
     return systemlist(l:command)
+endfunction "}}}
+
+function! tagsearch#remove_each_tag(tags) abort "{{{
+    exec ':%s/@\(' . join(a:tags, '\|') . '\)//g'
+endfunction "}}}
+
+function! tagsearch#remove_tags() abort "{{{
+    let tags_in_doc=split(trim(system('tagsearch file-tags ' . expand('%'))), ', ')
+    call fzf#run(fzf#wrap({
+                \ 'source': 'tagsearch file-tags --long --no-tree ' . expand('%'),
+                \ 'sink*': function('tagsearch#remove_each_tag'),
+                \ 'options': '-m'}))
 endfunction "}}}
