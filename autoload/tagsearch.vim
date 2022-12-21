@@ -155,3 +155,18 @@ function! tagsearch#remove_tags() abort "{{{
                 \ 'sink*': function('tagsearch#remove_each_tag'),
                 \ 'options': '-m'}))
 endfunction "}}}
+
+function! tagsearch#complete_tags(findstart, base) abort "{{{
+    if a:findstart  " find the start of the word
+        let line = getline('.')
+        let start = col('.') - 1
+        while start > 0 && line[start - 1] != '@'
+            let start -= 1
+        endwhile
+        return start
+    else  " find words starting with a:base
+        let tags = split(system('tagsearch tags --long --no-tree'))
+        let matches = filter(l:tags, {_, v -> v =~ a:base})
+        return l:matches
+    endif
+endfunction "}}}
