@@ -27,3 +27,5 @@ cnoreabbrev TSA TagsearchAppendTags
 command! TagsearchLong call tagsearch#long()
 cnoreabbrev TSLO TagsearchLong
 
+command! TagsearchLongFZF call tagsearch#long_fzf()
+cnoreabbrev TSLOF TagsearchLongFZF

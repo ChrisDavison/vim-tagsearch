@@ -5,9 +5,7 @@
 function! s:fzf(source, sink) abort "{{{
     call fzf#run(fzf#wrap({
                 \ 'source': a:source,
-                \ 'sink': a:sink,
-                \ 'window': {'width': 1.0, 'height': 0.3, 'relative': v:false, 'yoffset': 0.0},
-                \ 'preview': ['right:50%:hidden', 'ctrl-/'],
+                \ 'sink': a:sink
                 \ }))
 endfunction "}}}
 
@@ -31,6 +29,14 @@ function! tagsearch#long() abort "{{{
                 \ 'sink*': function('tagsearch#list_or'),
                 \ 'options': '-m'}))
 endfunction "}}}
+
+function! tagsearch#long_fzf() abort "{{{
+    call fzf#run(fzf#wrap({
+                \ 'source': 'tagsearch tags --long --no-tree',
+                \ 'sink*': function('tagsearch#list_fzf_or'),
+                \ 'options': '-m'}))
+endfunction "}}}
+
 
 function! tagsearch#insert_tags_at_point(tags) "{{{
     let tagstr=join(map(a:tags, {_, v -> "@" . v}), " ")
@@ -122,6 +128,12 @@ function! tagsearch#list_fzf(tags, or) abort "{{{
     endif
     call <sid>fzf('tagsearch files ' . l:or . a:tags, 'e')
 endfunction "}}}
+
+function! tagsearch#list_fzf_or(tags) abort "{{{
+    let or=' -o '
+    call <sid>fzf('tagsearch files ' . l:or . join(a:tags, ' '), 'e')
+endfunction "}}}
+
 
 function! tagsearch#knowledge_projects(arglead, _cmdline, _cursorpos) abort "{{{
     let curdir=getcwd()
