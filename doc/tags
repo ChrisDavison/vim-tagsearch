@@ -1,5 +1,11 @@
+:AddTags	vim-tagsearch.txt	/*:AddTags*
+:AppendTags	vim-tagsearch.txt	/*:AppendTags*
+:InsertTags	vim-tagsearch.txt	/*:InsertTags*
+:RemoveTags	vim-tagsearch.txt	/*:RemoveTags*
+:TagsearchAppendTags	vim-tagsearch.txt	/*:TagsearchAppendTags*
 :TagsearchList	vim-tagsearch.txt	/*:TagsearchList*
 :TagsearchListFZF	vim-tagsearch.txt	/*:TagsearchListFZF*
+:TagsearchLong	vim-tagsearch.txt	/*:TagsearchLong*
 :TagsearchUntagged	vim-tagsearch.txt	/*:TagsearchUntagged*
 :TagsearchUntaggedFZF	vim-tagsearch.txt	/*:TagsearchUntaggedFZF*
 vim-tagsearch	vim-tagsearch.txt	/*vim-tagsearch*
@@ -7,3 +13,5 @@ vim-tagsearch-SOME_MAPPING	vim-tagsearch.txt	/*vim-tagsearch-SOME_MAPPING*
 vim-tagsearch-commands	vim-tagsearch.txt	/*vim-tagsearch-commands*
 vim-tagsearch-maps	vim-tagsearch.txt	/*vim-tagsearch-maps*
 vim-tagsearch.txt	vim-tagsearch.txt	/*vim-tagsearch.txt*
+vim-tagsearch_navigating	vim-tagsearch.txt	/*vim-tagsearch_navigating*
+vim-tagsearch_viewing	vim-tagsearch.txt	/*vim-tagsearch_viewing*
