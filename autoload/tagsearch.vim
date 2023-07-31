@@ -88,11 +88,11 @@ endfunction "}}}
 
 function! tagsearch#append_tags(tags) abort "{{{
     if a:tags != ""
-        call tagsearch#append_to_existing_tags_or_create_new(a:tags)
+        call tagsearch#append_tags_to_first_tagline(split(a:tags, ' '))
     else
         call fzf#run(fzf#wrap({
                     \ 'source': 'tagsearch tags --long --no-tree',
-                    \ 'sink*': function('tagsearch#append_to_existing_tags_or_create_new'),
+                    \ 'sink*': function('tagsearch#append_tags_to_first_tagline'),
                     \ 'options': '-m'}))
     endif
 endfunction "}}}
@@ -177,7 +177,7 @@ function! tagsearch#complete_tags(findstart, base) abort "{{{
         endwhile
         return start
     else  " find words starting with a:base
-        let tags = split(system('tagsearch tags --long --no-tree'))
+        let tags = map(systemlist('tagsearch tags --long --no-tree'), {_, v -> '@' . v})
         let matches = filter(l:tags, {_, v -> v =~ a:base})
         return l:matches
     endif

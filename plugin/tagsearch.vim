@@ -13,7 +13,7 @@ cnoreabbrev TSU TagsearchUntagged
 cnoreabbrev TSUF TagsearchUntaggedF
 
 command! InsertTags call tagsearch#insert_tags()
-command! AppendTags call tagsearch#append_tags()
+command! -nargs=+ AppendTags call tagsearch#append_tags(<q-args>)
 command! -nargs=+ AddTags call tagsearch#append_tags_to_first_tagline(split(<q-args>, ' '))
 command! RemoveTags call tagsearch#remove_tags()
 
