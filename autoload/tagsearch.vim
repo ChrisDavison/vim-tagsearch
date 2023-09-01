@@ -177,7 +177,7 @@ function! tagsearch#complete_tags(findstart, base) abort "{{{
         endwhile
         return start
     else  " find words starting with a:base
-        let tags = map(systemlist('tagsearch tags --long --no-tree'), {_, v -> '@' . v})
+        let tags = systemlist('tagsearch tags --long --no-tree')
         let matches = filter(l:tags, {_, v -> v =~ a:base})
         return l:matches
     endif
